@@ -1,0 +1,266 @@
+{% extends 'landingpage/base.html' %}
+{% load static %}
+
+{% block extra_style %}
+    <style>
+        .swal2-container .swal2-html-container {
+            overflow: visible !important;
+        }
+
+        .swal2-html-container {
+            display: contents !important;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <!--begin::Main-->
+    <div class="d-flex flex-column flex-root">
+        <!--begin::Login-->
+        <div class="login login-2 login-signin-on d-flex flex-column flex-lg-row flex-column-fluid bg-white" id="kt_login">
+            <!--begin::Aside-->
+            <div class="login-aside order-2 order-lg-2 d-flex flex-row-auto position-relative overflow-hidden">
+                <!--begin: Aside Container-->
+                <div class="d-flex flex-column-fluid flex-column justify-content-between py-9 px-7 py-lg-7 px-lg-22">
+                    <!--begin::Aside body-->
+                    <div class="d-flex flex-column-fluid flex-column flex-center">
+                        <!--begin::Appointment-->
+                        <div class="login-form login-signin py-11">
+                            <!--begin::Form-->
+                            <form class="form" id="appointmentForm" method="post">
+                                {% csrf_token %}
+                                <!--begin::Title-->
+                                <div class="text-center pb-8">
+                                    <h2 class="font-weight-bolder text-dark font-size-h2 font-size-h1-lg">Request an Appointment Today!</h2>
+                                </div>
+                                <!--end::Title-->
+
+                                <!--begin::Form group-->
+                                <div class="form-group">
+                                    <label class="font-size-h6 font-weight-bolder text-dark">Desired Appointment Date</label>
+                                    <input type="text" class="form-control form-control-solid rounded-sm" name="appointment_datetime" id="appointment_datetime" readonly placeholder="Select date" required/>
+                                    <input type="text" name="slot" id="slot" hidden/>
+                                </div>
+                                <!--end::Form group-->
+
+                                <!--begin::Form group-->
+                                <div class="form-group">
+                                    <label class="font-size-h6 font-weight-bolder text-dark">Full Name</label>
+                                    <input class="form-control form-control-solid rounded-sm" id="full_name" name="full_name" type="text" autocomplete="off" required/>
+                                </div>
+                                <!--end::Form group-->
+
+                                <!--begin::Form group-->
+                                <div class="form-group">
+                                    <label class="font-size-h6 font-weight-bolder text-dark">Mobile Number (09XXXXXXXXX)</label>
+                                    <input class="form-control form-control-solid rounded-sm" id="mobile_number" name="mobile_number" type="text" autocomplete="off" required/>
+                                </div>
+                                <!--end::Form group-->
+
+                                <!--begin::Form group-->
+                                <div class="form-group">
+                                    <label class="font-size-h6 font-weight-bolder text-dark">Email</label>
+                                    <input class="form-control form-control-solid rounded-sm" type="email"
+                                           name="email" id="email" autocomplete="off" required/>
+                                </div>
+                                <!--end::Form group-->
+
+                                <!--begin::Form group-->
+                                <div class="form-group">
+                                    <label class="font-size-h6 font-weight-bolder text-dark">Are you a new patient?</label>
+                                    <div class="col-form-label">
+                                        <div class="radio-inline">
+                                            <label class="radio radio-outline radio-outline-2x radio-primary">
+                                                <input type="radio" name="patient_type" value="new" checked="checked" />
+                                                <span></span>
+                                                New
+                                            </label>
+                                            <label class="radio radio-outline radio-outline-2x radio-primary">
+                                                <input type="radio" name="patient_type" id="patient_type" value="old" />
+                                                <span></span>
+                                                Old
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--end::Form group-->
+
+                                <!--begin::Action-->
+                                <div class="text-center pt-2">
+                                    <button id="request-appointment" type="submit"
+                                            class="btn btn-dark font-weight-bolder font-size-h6 px-8 py-4 my-3">Request Appointment
+                                    </button>
+                                </div>
+                                <!--end::Action-->
+                            </form>
+                            <!--end::Form-->
+                        </div>
+                        <!--end::Appointment-->
+                    </div>
+                    <!--end::Aside body-->
+                </div>
+                <!--end: Aside Container-->
+            </div>
+            <!--begin::Aside-->
+
+            <!--begin::Content-->
+            <div class="content order-1 order-lg-1 d-flex flex-column w-100 pb-0" style="background-color: #B1DCED;">
+                <!--begin::Title-->
+                <div class="d-flex flex-column justify-content-center text-center pt-lg-30 pt-md-5 pt-sm-5 px-lg-0 pt-5 px-7">
+                    <h3 class="display4 font-weight-bolder my-7 text-dark" style="color: #986923;">Amazing Wireframes</h3>
+                    <p class="font-weight-bolder font-size-h2-md font-size-lg text-dark opacity-70">
+                        User Experience & Interface Design, Product Strategy<br/>
+                        Web Application SaaS Solutions
+                    </p>
+                </div>
+                <!--end::Title-->
+
+                <!--begin::Image-->
+                <div class="content-img d-flex flex-row-fluid bgi-no-repeat bgi-position-y-bottom bgi-position-x-center"
+                     style="background-image: url({% static 'assets/media/svg/illustrations/login-visual-2.svg' %});"></div>
+                <!--end::Image-->
+            </div>
+            <!--end::Content-->
+        </div>
+        <!--end::Login-->
+    </div>
+    <!--end::Main-->
+{% endblock %}
+
+{% block extra_script %}
+    <script>
+        var slot = $('#slot');
+        var appointment_datetime = $('#appointment_datetime');
+
+        function formatDate(d) {
+          var day = String(d.getDate())
+          //add leading zero if day is is single digit
+          if (day.length == 1)
+            day = '0' + day
+          var month = String((d.getMonth()+1))
+          //add leading zero if month is is single digit
+          if (month.length == 1)
+            month = '0' + month
+          return d.getFullYear() + "-" + month + "-" + day
+        }
+
+        appointment_datetime.click(function () {
+            var availableDates = [];
+            $.ajax({
+                type: "GET",
+                url: "/api/dates/available/",
+                success: function(response)
+                {
+                    availableDates = response;
+                    (async () => {
+                        const {value: formValues} = await Swal.fire({
+                            title: "Select Appointment Date and Time",
+                            width: '600px',
+                            animation: false,
+                            showCancelButton: true,
+                            confirmButtonText: 'Confirm',
+                            confirmButtonColor: '#5577EB',
+                            cancelButtonColor: '#d33',
+                            cancelButtonText: 'Cancel',
+                            reverseButtons: true,
+                            html:
+                                '<div class="form-group row mt-4">' +
+                                '<label for="appointment_date" class="col-sm-4 col-form-label">Appointment Date:</label>' +
+                                '<input type="text" class="form-control col-sm-8" id="appointment_date" name="appointment_date" readonly>' +
+                                '</div>' +
+                                '<div class="form-group row mt-4 time_slot"></div>',
+                            focusConfirm: true,
+                            onOpen: function () {
+                                var appointment_date = $('#appointment_date');
+                                var time_slot = $('.time_slot');
+
+                                appointment_date.datepicker({
+                                    format: "yyyy-mm-dd",
+                                    beforeShowDay: function (date) {
+                                        if (availableDates.indexOf(formatDate(date)) < 0)
+                                            return {
+                                                enabled: false,
+                                                classes: 'text-muted',
+                                                tooltip: 'Unavailable'
+                                            }
+                                        else
+                                            return {
+                                                enabled: true,
+                                                classes: 'font-weight-bold',
+                                                tooltip: 'Available'
+                                            }
+                                    },
+                                });
+
+                                appointment_date.change(function () {
+                                    var selected_date = $(this).val();
+                                    time_slot.html('');
+
+                                    $.ajax({
+                                        type: "GET",
+                                        url: "/api/dates/slots/?date=" + selected_date,
+                                        success: function (response) {
+                                            var options = '<label for="timeslot" class="col-sm-4 col-form-label">Select Time slot:</label>' +
+                                                            '<select class="form-control col-sm-8" name="timeslot" id="timeslot">';
+                                            for(var i = 0; i < response.length; i++) {
+                                                options += "<option value='" + response[i].id+ "'>" + response[i].start + " - " + response[i].end +"</option>"
+                                            }
+                                            options += "</select>";
+                                            setTimeout(function () {
+                                                time_slot.html(options);
+                                            }, 1000);
+                                        }
+                                    })
+
+                                })
+                            },
+                            preConfirm: () => {
+                                var appointment_text = document.getElementById('appointment_date').value + ': ' + $('#timeslot option:selected').text();
+                                var appointment_slot = document.getElementById('timeslot').value;
+                                console.log(appointment_text)
+                                console.log(appointment_slot)
+                                appointment_datetime.val(appointment_text);
+                                slot.val(appointment_slot);
+                                return null
+                            }
+                        });
+                    })()
+                }
+            });
+        })
+
+
+        $('#request-appointment').click(function (e) {
+            e.preventDefault();
+
+            var fullName = $("#full_name").val();
+            var form = $('#appointmentForm');
+
+            $.ajax({
+                type: "POST",
+                url: "/api/appointment/",
+                data: form.serialize(),
+                success: function (data) {
+                    Swal.fire({
+                        width: 400,
+                        title: 'Appointment Form',
+                        html:
+                            "<div class='text-center'>" +
+                            "<p>An appointment with Dr. Name has been requested with the following details<br><span class='text-danger font-weight-bold'>(PENDING APPROVAL AFTER PAYMENT)</span></p>" +
+                            "<p>Name:<br/><strong>" + fullName + "</strong></p>" +
+                            "<p>Appointment Reference Number:<br/><strong>" + data.reference_number + "</strong></p>" +
+                            "<p>To finalize your appointment, please follow the instructions sent to your email.<br>Once payment is acknowledged, you will receive a text and email confirmation.</p>" +
+                            "<p>Appointment requests that are not paid after <strong>2 days</strong> will be declined.</p>" +
+                            "</div>",
+                        showCloseButton: true,
+                        focusConfirm: false,
+                        confirmButtonText: "Done",
+                        className: '.swal2-html-container-block'
+                    }).then(function () {
+                        window.location.reload();
+                    });
+                }
+            });
+        })
+    </script>
+{% endblock %}

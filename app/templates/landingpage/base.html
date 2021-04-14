@@ -1,0 +1,26 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<!--begin::Head-->
+<head>
+    <meta charset="utf-8"/>
+    <title>{{ title }}</title>
+    <meta name="description" content=""/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <link rel="shortcut icon" href="{% static 'assets/media/logos/favicon.ico' %}"/>
+    {% include 'landingpage/partials/css-scripts.html' %}
+    {% block extra_style %}{% endblock %}
+</head>
+<!--end::Head-->
+
+<!--begin::Body-->
+<body id="kt_body"
+      class="header-fixed header-mobile-fixed subheader-enabled subheader-fixed aside-enabled aside-fixed aside-minimize-hoverable page-loading">
+
+{% block content %}{% endblock %}
+
+{% include 'landingpage/partials/js-scripts.html' %}
+{% block extra_script %}{% endblock %}
+</body>
+<!--end::Body-->
+</html>
