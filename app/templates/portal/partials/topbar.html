@@ -1,0 +1,72 @@
+{% load static %}
+<div id="kt_header" class="header  header-fixed ">
+    <!--begin::Container-->
+    <div class=" container-fluid  d-flex align-items-stretch justify-content-between">
+        <!--begin::Header Menu Wrapper-->
+        <div class="header-menu-wrapper header-menu-wrapper-left" id="kt_header_menu_wrapper">
+            <!--begin::Header Menu-->
+            <div id="kt_header_menu" class="header-menu header-menu-mobile  header-menu-layout-default ">
+                <!--begin::Header Nav-->
+                <ul class="menu-nav ">
+
+                </ul>
+                <!--end::Header Nav-->
+            </div>
+            <!--end::Header Menu-->
+        </div>
+        <!--end::Header Menu Wrapper-->
+
+        <!--begin::Topbar-->
+        <div class="topbar">
+            <!--begin: User Bar -->
+            <div class="topbar-item mr-1">
+                <div class="btn btn-icon w-auto btn-clean d-flex align-items-center btn-lg px-2"
+                     data-toggle="dropdown">
+                    <span class="text-muted font-weight-bold font-size-base d-none d-md-inline mr-1">Hi,</span>
+                    <span class="text-dark-50 font-weight-bolder font-size-base d-none d-md-inline mr-3">
+                                    User
+                                </span>
+                    <span class="symbol symbol-35 symbol-light-success">
+                                    <span class="symbol-label font-size-h5 font-weight-bold">U</span>
+                                </span>
+                </div>
+                <div class="dropdown-menu p-0 m-0 dropdown-menu-right dropdown-menu-anim-up dropdown-menu-md"
+                     x-placement="bottom-end">
+                    <div class="d-flex flex-column pt-12 bgi-size-cover bgi-no-repeat rounded-top"
+                         style="background-image: url({% static 'assets/media/misc/bg-2.jpg' %})">
+                        <h4 class="d-flex flex-center rounded-top">
+                            <span class="text-white">
+                                User
+                            </span>
+                        </h4>
+                        <p class="d-flex flex-center text-white font-sm  mb-8">
+                            Manager
+                        </p>
+                    </div>
+                    <ul class="navi navi-hover py-4">
+                        <!--begin::Items-->
+                        <li class="navi-item">
+                            <a href="#" class="navi-link">
+                                <span class="symbol symbol-20 mr-3">
+                                    <i class="flaticon2-calendar-3"></i>
+                                </span>
+                                <span class="navi-text">My Profile</span>
+                            </a>
+                        </li>
+                        <div class="separator separator-dashed my-2"></div>
+                        <li class="navi-item mt-2">
+                                    <span class="navi-link">
+                                        <a href="#"
+                                           class="btn btn-sm btn-light-primary font-weight-bolder py-3 px-6">Sign Out</a>
+                                    </span>
+                        </li>
+                        <!--end::Items-->
+                    </ul>
+                </div>
+            </div>
+            <!--end: User Bar -->
+        </div>
+        <!--end::Topbar-->
+    </div>
+    <!--end::Container-->
+</div>
