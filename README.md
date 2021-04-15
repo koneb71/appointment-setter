@@ -1,5 +1,5 @@
-# Appointment Setting App
-Django-based app appointment setter with email and sms feature
+# Appointment Booking App
+Django-based appointment Booking app with email and sms feature
 
 ### Setup
 
