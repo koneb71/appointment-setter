@@ -1,0 +1,13 @@
+[Unit]
+Description=Gunicorn instance to serve the Appointment Setter
+After=network.target
+
+
+[Service]
+User=root
+Group=www-data
+WorkingDirectory=/home/ubuntu/appointment-setter
+ExecStart=/usr/local/bin/gunicorn --timeout 120 -w 4 --bind 0.0.0.0:4146 -k gevent --log-level=debug appsched.wsgi
+
+[Install]
+WantedBy=multi-user.target

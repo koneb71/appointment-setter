@@ -1,0 +1,18 @@
+upstream web {
+  ip_hash;
+  server 0.0.0.0:8000;
+}
+
+server {
+
+    location /static/ {
+        autoindex on;
+        alias /home/ubuntu/appointment-setter/static/;
+    }
+
+    location / {
+        proxy_pass http://web/;
+    }
+    listen 80;
+    server_name _;
+}
