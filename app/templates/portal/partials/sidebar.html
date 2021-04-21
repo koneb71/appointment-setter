@@ -43,11 +43,27 @@
                 data-menu-scroll="1" data-menu-dropdown-timeout="500">
             <!--begin::Menu Nav-->
             <ul class="menu-nav ">
-                <li class="menu-item  menu-item-active" aria-haspopup="true">
-                    <a href="{% url 'admin_dashboard' %}" class="menu-link">
+{#                <li class="menu-item  menu-item-active" aria-haspopup="true">#}
+{#                    <a href="{% url 'admin_dashboard' %}" class="menu-link">#}
+{#                        <span class="menu-text">#}
+{#                            <i class="flaticon-squares-1 mr-3"></i>#}
+{#                            Dashboard#}
+{#                        </span>#}
+{#                    </a>#}
+{#                </li>#}
+                <li class="menu-item {% if nav == 'appointments' %}menu-item-active{% endif %}" aria-haspopup="true">
+                    <a href="{% url 'appointments' %}" class="menu-link">
                         <span class="menu-text">
-                            <i class="flaticon-squares-1 mr-3"></i>
-                            Dashboard
+                            <i class="flaticon-event-calendar-symbol mr-3"></i>
+                            Appointments
+                        </span>
+                    </a>
+                </li>
+                <li class="menu-item  {% if nav == 'calendar' %}menu-item-active{% endif %}" aria-haspopup="true">
+                    <a href="{% url 'calendar' %}" class="menu-link">
+                        <span class="menu-text">
+                            <i class="flaticon-time-2 mr-3"></i>
+                            Calendar
                         </span>
                     </a>
                 </li>

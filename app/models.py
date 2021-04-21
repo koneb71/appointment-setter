@@ -93,6 +93,28 @@ class BaseModel(models.Model):
         abstract = True
 
 
+class EventLog(BaseModel):
+    correlation_id = models.CharField(max_length=255, unique=True)
+    event_action = models.CharField(max_length=100)
+    description = models.TextField(null=True, blank=True)
+    payload = models.TextField(null=True, blank=True)
+    ids = models.CharField(max_length=255, null=True, blank=True)
+    created_by = models.ForeignKey(AdminUser, on_delete=models.DO_NOTHING)
+
+    class Meta:
+        verbose_name = 'Event'
+        verbose_name_plural = 'Events'
+
+
+class AdminSetting(BaseModel):
+    name = models.CharField(max_length=255, unique=True)
+    value = models.CharField(max_length=255)
+
+    class Meta:
+        verbose_name = 'Admin Setting'
+        verbose_name_plural = 'Admin Setting'
+
+
 class DateTimeSlot(BaseModel):
     appointment_date = models.DateField()
     start = models.TimeField()
@@ -106,6 +128,9 @@ class DateTimeSlot(BaseModel):
 
     def __str__(self):
         return f"{self.appointment_date.strftime('%Y-%m-%d')}: {self.start} - {self.end}"
+
+    def get_time(self):
+        return f"{self.start} - {self.end}"
 
 
 class Appointment(BaseModel):
@@ -125,10 +150,16 @@ class Appointment(BaseModel):
         return f"{self.reference_number} - {self.full_name}"
 
     def save(self, *args, **kwargs):
-        total_count = DateTimeSlot.objects.filter(appointment_date=self.slot.appointment_date).count()
-        self.reference_number = f"{self.slot.appointment_date.strftime('%Y%m%d')}-{total_count+1}"
-        slot = DateTimeSlot.objects.get(id=self.slot.id)
-        slot.status = 1
-        slot.save()
+        if not self.reference_number:
+            total_count = DateTimeSlot.objects.filter(appointment_date=self.slot.appointment_date)\
+                .filter(status=1).count()
+            self.reference_number = f"{self.slot.appointment_date.strftime('%Y%m%d')}-{total_count+1}"
+            slot = DateTimeSlot.objects.get(id=self.slot.id)
+            slot.status = 1
+            slot.save()
+        # else:
+        #     corr_id = shortuuid.uuid()
+        #     current_user = self.request.user
+        #     EventLog(correlation_id=corr_id, event_action='Confirm Payment', )
 
         super(Appointment, self).save(*args, **kwargs)

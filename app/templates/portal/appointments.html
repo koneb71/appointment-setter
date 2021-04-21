@@ -1,0 +1,96 @@
+{% extends 'portal/base.html' %}
+{% load static %}
+
+{% block extra_style %}
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card card-custom">
+                <div class="card-body">
+                    <table style="display:none" class="table table-separate table-head-custom table-checkable dataTable no-footer dtr-inline table-hover data-table compact">
+                        <thead>
+                        <tr>
+                            <th>Reference Number</th>
+                            <th>Full Name</th>
+                            <th>Contact</th>
+                            <th>Timeslot</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for item in items %}
+                            <tr>
+                                <td class="pl-0">
+                                    <a href="#" class="text-dark-75 font-weight-bolder text-hover-primary font-size-lg">{{ item.reference_number }}</a>
+                                </td>
+                                <td>
+                                    <span class="text-dark-75 font-weight-bolder d-block font-size-lg">
+                                        {{ item.full_name }}
+                                    </span>
+                                    {% if item.patient_type == 'new' %}
+                                    <span class="label label-sm label-primary label-pill label-inline mr-2">new</span>
+                                    {% else %}
+                                    <span class="label label-sm label-success label-pill label-inline mr-2">old</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <span class="text-dark-75 font-weight-bolder d-block font-size-lg">
+                                        {{ item.mobile_number }}
+                                    </span>
+                                    <span class="text-muted font-weight-bold">
+                                        {{ item.email }}
+                                    </span>
+                                </td>
+                                <td>
+                                    <span class="text-dark-75 font-weight-bolder d-block font-size-lg">
+                                        {{ item.slot.appointment_date }}
+                                    </span>
+                                    <span class="text-muted font-weight-bold">
+                                        {{ item.slot.get_time }}
+                                    </span>
+                                </td>
+                                <td>
+                                    {% if item.status == 0 %}
+                                        <span class="label label-lg label-light-warning label-inline">Pending</span>
+                                    {% elif item.status == 1 %}
+                                        <span class="label label-lg label-light-success label-inline">Paid</span>
+                                    {% elif item.status == 2 %}
+                                        <span class="label label-lg label-light-danger label-inline">Cancelled</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <a href="#" class="btn btn-sm btn-primary font-weight-bold btn-square">
+                                        <i class="flaticon2-sheet"></i> Confirm
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block extra_script %}
+    <script>
+        $(document).ready(function() {
+            var table = $('.data-table');
+            table.DataTable({
+                responsive: true,
+                lengthMenu: [25, 50, 100, 200],
+                dom: "<'row'<'col-sm-4'l><'col-sm-4'B><'col-sm-4'f>><'row'<'col-sm-12'tr>><'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7 dataTables_pager'p>>",
+                buttons: ['copy', 'csv', 'excel'],
+                pageLength: 50,
+                searching: true,
+                ordering: false,
+            });
+
+            table.show();
+        });
+    </script>
+{% endblock %}
